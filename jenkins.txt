@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Login') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: '4b875e4c-acc3-48e4-851d-080325da8eb0', variable: 'CYPRESS_DEV_ENV')]) {
+                        docker.withRegistry('https://340268328991.dkr.ecr.eu-west-2.amazonaws.com/cop/acceptance-test', 'ecr:eu-west-2:acceptance-test-ecr') {
+                            sh 'docker run --env-file $CYPRESS_DEV_ENV 340268328991.dkr.ecr.eu-west-2.amazonaws.com/cop/acceptance-test:8abfbd306be5aa730b034413e383fc73233a9849'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
